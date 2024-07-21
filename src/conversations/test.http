@@ -1,0 +1,17 @@
+POST http://localhost:3000/conversations/get-by-participants
+Content-Type: application/json
+
+{
+  "userIds": [
+    "91d7e775-092d-4ba9-9f3b-5555c1e19d19",
+    "0fb2eb72-2d3f-478b-bacb-9367377af931"
+  ]
+}
+
+###
+
+GET localhost:3000/conversations/3820c7b1-79f8-4c5e-9381-4f50399c3496
+
+###
+
+GET localhost:3000/conversations
