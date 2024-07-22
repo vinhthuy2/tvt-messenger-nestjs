@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ConversationEntity } from '../conversations/conversation.types';
-import { MessageDto, MessageEntity } from './message.types';
+import { Conversation } from '../conversations/conversation.types';
+import { User } from '../users/user.entity';
+import { Message, MessageDto } from './message.types';
 
 @Injectable()
 export class MessagesService {
   constructor(
-    @InjectRepository(MessageEntity)
-    private messageRepository: Repository<MessageEntity>,
-    @InjectRepository(ConversationEntity)
-    private conversationRepository: Repository<ConversationEntity>,
+    @InjectRepository(Message)
+    private messageRepository: Repository<Message>,
+    @InjectRepository(Conversation)
+    private conversationRepository: Repository<Conversation>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   async create(messageDto: MessageDto) {
@@ -27,16 +30,22 @@ export class MessagesService {
       throw new Error('Conversation not found!');
     }
 
-    const entity: MessageEntity = {
+    const user = await this.userRepository.findOneBy({
+      id: message.from,
+    });
+
+    if (!user) {
+      throw new Error('User not found!');
+    }
+
+    return {
       id: message.id,
       content: message.content,
       timestamp: message.timestamp,
-      from: message.from,
+      from: user,
       conversation: conversation,
       isDelivered: false,
       isRead: false,
     };
-
-    return entity;
   }
 }

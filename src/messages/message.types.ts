@@ -1,14 +1,14 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ConversationEntity } from '../conversations/conversation.types';
-import { UserEntity } from '../users/user.entity';
+import { Conversation } from '../conversations/conversation.types';
+import { User } from '../users/user.entity';
 
-@Entity('messages')
-export class MessageEntity {
+@Entity()
+export class Message {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.sentMessages)
-  from: string;
+  @ManyToOne(() => User, (user) => user.sentMessages)
+  from: User;
 
   @Column()
   content: string;
@@ -22,8 +22,8 @@ export class MessageEntity {
   @Column()
   isDelivered: boolean;
 
-  @ManyToOne(() => ConversationEntity, (conversation) => conversation.messages)
-  conversation: ConversationEntity;
+  @ManyToOne(() => Conversation, (conversation) => conversation.messages)
+  conversation: Conversation;
 }
 
 export interface MessageDto {
@@ -36,10 +36,10 @@ export interface MessageDto {
   isDelivered: boolean;
 }
 
-export function toMessageDto(message: MessageEntity): MessageDto {
+export function toMessageDto(message: Message): MessageDto {
   return {
     id: message.id,
-    from: message.from,
+    from: message.from.id,
     to: message.conversation.id,
     content: message.content,
     timestamp: message.timestamp,

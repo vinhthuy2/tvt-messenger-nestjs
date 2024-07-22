@@ -1,16 +1,9 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { ConversationEntity } from '../conversations/conversation.types';
-import { MessageEntity } from '../messages/message.types';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UserConversation } from '../JoinedEntities/UserConversation';
+import { Message } from '../messages/message.types';
 
-@Entity('users')
-export class UserEntity {
+@Entity()
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,24 +22,10 @@ export class UserEntity {
   @Column()
   lastSeen: Date;
 
-  @ManyToMany(
-    () => ConversationEntity,
-    (conversation) => conversation.participants,
-  )
-  @JoinTable({
-    name: 'user_conversation',
-    joinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'conversation_id',
-      referencedColumnName: 'id',
-    },
-  })
-  conversations?: ConversationEntity[];
+  @OneToMany(() => UserConversation, (uc) => uc.user)
+  userConversations?: UserConversation[];
 
-  @OneToMany(() => MessageEntity, (message) => message.from)
+  @OneToMany(() => Message, (message) => message.from)
   sentMessages: any;
 
   constructor(name: string, email: string) {

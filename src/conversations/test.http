@@ -3,8 +3,8 @@ Content-Type: application/json
 
 {
   "userIds": [
-    "91d7e775-092d-4ba9-9f3b-5555c1e19d19",
-    "0fb2eb72-2d3f-478b-bacb-9367377af931"
+    "6fc03012-a449-4fc5-b746-9edbcb3b7c0f",
+    "1914e676-8bcd-4824-838e-92b1eb437284"
   ]
 }
 
@@ -15,3 +15,6 @@ GET localhost:3000/conversations/3820c7b1-79f8-4c5e-9381-4f50399c3496
 ###
 
 GET localhost:3000/conversations
+
+###
+GET localhost:3000/conversations/list/d155a327-c0e2-4e0e-a15e-95cd968e3a5f?page=0&pageSize=10

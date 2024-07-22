@@ -2,15 +2,16 @@ import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConversationEntity } from './conversations/conversation.types';
+import { Conversation } from './conversations/conversation.types';
 import { ConversationsModule } from './conversations/conversations.module';
 import { EventsModule } from './Events/events.module';
-import { MessageEntity } from './messages/message.types';
+import { UserConversation } from './JoinedEntities/UserConversation';
+import { Message } from './messages/message.types';
 import { MessagesModule } from './messages/messages.module';
 import { MessagesService } from './messages/messages.service';
 import { SeederService } from './Seeders/seeder.service';
 import { SeedersModule } from './Seeders/seeders.module';
-import { UserEntity } from './users/user.entity';
+import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -19,10 +20,10 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: './database.sqlite',
-      entities: [UserEntity, MessageEntity, ConversationEntity],
+      entities: [User, Message, Conversation, UserConversation],
       autoLoadEntities: true,
       synchronize: true,
-      // dropSchema: true,
+      dropSchema: true,
       logging: true,
     }),
     UsersModule,
@@ -37,6 +38,6 @@ export class AppModule implements OnModuleInit {
   constructor(private readonly seederService: SeederService) {}
 
   async onModuleInit() {
-    // await this.seederService.seed();
+    await this.seederService.seed();
   }
 }
