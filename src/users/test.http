@@ -1,0 +1,2 @@
+GET localhost:3000/users/a8d3709c-b3c1-4d73-b4a3-61bf4b1e718d
+Content-Type: application/json

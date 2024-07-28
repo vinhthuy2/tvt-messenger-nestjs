@@ -23,7 +23,7 @@ import { UsersModule } from './users/users.module';
       entities: [User, Message, Conversation, UserConversation],
       autoLoadEntities: true,
       synchronize: true,
-      dropSchema: true,
+      // dropSchema: true,
       logging: true,
     }),
     UsersModule,
@@ -38,6 +38,6 @@ export class AppModule implements OnModuleInit {
   constructor(private readonly seederService: SeederService) {}
 
   async onModuleInit() {
-    await this.seederService.seed();
+    // await this.seederService.seed();
   }
 }
